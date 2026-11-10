@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "source_files": {
+    "scheme-1": "scheme-1.svg",
+    "scheme-2": "scheme-2.svg",
+    "scheme-3": "scheme-3.svg"
+  },
+  "schemes": [
+    {
+      "id": "scheme-1",
+      "name": "Сиреневая",
+      "colors": [
+        { "hex": "#D7CDF5", "role": "plane", "note": "плоскость фона" },
+        { "hex": "#F9ECB0", "role": "object" },
+        { "hex": "#AA9BF0", "role": "object" },
+        { "hex": "#F9A3AA", "role": "object" },
+        { "hex": "#7864D7", "role": "object" },
+        { "hex": "#FFE3E1", "role": "object" },
+        { "hex": "#181817", "role": "object", "note": "контур / тёмный" },
+        { "hex": "#FFFFFF", "role": "object", "note": "белый" }
+      ]
+    },
+    {
+      "id": "scheme-2",
+      "name": "Персиковая",
+      "colors": [
+        { "hex": "#FDD7B9", "role": "plane", "note": "плоскость фона" },
+        { "hex": "#F9ECB0", "role": "object" },
+        { "hex": "#FAC896", "role": "object" },
+        { "hex": "#80DADA", "role": "object" },
+        { "hex": "#D27532", "role": "object" },
+        { "hex": "#BEEBEB", "role": "object" },
+        { "hex": "#181817", "role": "object", "note": "контур / тёмный" },
+        { "hex": "#FFFFFF", "role": "object", "note": "белый" }
+      ]
+    },
+    {
+      "id": "scheme-3",
+      "name": "Бирюзово-розовая",
+      "colors": [
+        { "hex": "#BEEBEB", "role": "plane", "note": "плоскость фона" },
+        { "hex": "#FFD4F2", "role": "object" },
+        { "hex": "#80DADA", "role": "object" },
+        { "hex": "#6D7BFC", "role": "object" },
+        { "hex": "#5ABEBE", "role": "object" },
+        { "hex": "#B6C6FE", "role": "object" },
+        { "hex": "#181817", "role": "object", "note": "контур / тёмный" },
+        { "hex": "#FFFFFF", "role": "object", "note": "белый" }
+      ]
+    }
+  ],
+  "roles": {
+    "plane": "Цвет плоскости фона композиции — не использовать для заливки объектов",
+    "object": "Цвет, допустимый для главных/фоновых объектов"
+  }
+}
