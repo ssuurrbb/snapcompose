@@ -72,16 +72,12 @@ export function useComposition() {
   const setSchemeId = (schemeId: string) => setState((s) => ({ ...s, schemeId }))
   const select = (selectedUid: string | null) => setState((s) => ({ ...s, selectedUid }))
 
-  /** Разрешены только позиция и поворот — не scale (габариты фиксированы Size L/S). */
-  const updateItem = useCallback(
-    (itemUid: string, patch: Partial<Pick<SceneItem, 'x' | 'y' | 'rotation'>>) => {
-      setState((s) => ({
-        ...s,
-        items: s.items.map((it) => (it.uid === itemUid ? { ...it, ...patch } : it)),
-      }))
-    },
-    [],
-  )
+  const updateItem = useCallback((itemUid: string, patch: Partial<SceneItem>) => {
+    setState((s) => ({
+      ...s,
+      items: s.items.map((it) => (it.uid === itemUid ? { ...it, ...patch } : it)),
+    }))
+  }, [])
 
   const removeSelected = () => {
     setState((s) => ({
@@ -167,7 +163,7 @@ export function useComposition() {
         state.items.map((it) => reloadItemAsset(it, size, it.role, state.format)),
       )
       setState((s) => ({ ...s, size, items }))
-      setStatus(`Размер объектов: ${size} (габариты из библиотеки, без ручного scale)`)
+      setStatus(`Детализация ассетов: ${size}`)
     } catch (e) {
       setStatus(e instanceof Error ? e.message : 'Ошибка смены размера')
     } finally {

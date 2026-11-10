@@ -240,9 +240,18 @@ export default function App() {
                 <p className="meta">
                   {CATALOG.find((o) => o.id === selected.objectId)?.nameRu} · {selected.role} ·{' '}
                   {selected.size}
-                  <br />
-                  Габариты фиксированы Size {selected.size} — ручной масштаб запрещён
                 </p>
+                <label>
+                  Размер на холсте
+                  <input
+                    type="range"
+                    min={0.15}
+                    max={1.2}
+                    step={0.01}
+                    value={selected.scale}
+                    onChange={(e) => c.updateItem(selected.uid, { scale: Number(e.target.value) })}
+                  />
+                </label>
                 <label>
                   Поворот
                   <input
@@ -282,7 +291,7 @@ export default function App() {
             <h2>Ограничения</h2>
             <ul className="rules">
               <li>Новые объекты не генерируются</li>
-              <li>Габариты/пропорции — только Size L или S</li>
+              <li>Size L/S — детализация; масштаб на холсте можно менять</li>
               <li>Цвета только из выбранной схемы</li>
               <li>Экспорт — редактируемый SVG</li>
             </ul>
