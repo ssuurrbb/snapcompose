@@ -70,18 +70,14 @@ export function planeColor(schemeId: string): string {
 }
 
 /**
- * Плоскость фона со штрихами/овалами.
- * Для каждого формата — своя раскладка декора (не растягиваем квадрат).
- * Если файла схемы нет (horizontal/vertical кроме scheme-1) — берём scheme-1 и перекрашиваем.
+ * Плоскость фона: square — эталон; horizontal/vertical — cover-кроп из square.
  */
 export function planeAssetUrl(
   schemeId: string,
   format: 'square' | 'horizontal' | 'vertical' = 'square',
 ): string {
   const id = COLOR_SCHEMES.some((s) => s.id === schemeId) ? schemeId : BASE_SCHEME_ID
-  if (format === 'square') return `/planes/square/plane-${id}.svg`
-  // Пока для wide/tall есть эталонная геометрия scheme-1; другие схемы — через recolor.
-  return `/planes/${format}/plane-scheme-1.svg`
+  return `/planes/${format}/plane-${id}.svg`
 }
 
 /** Карта: цвет из базовой схемы → цвет целевой (по индексу). */

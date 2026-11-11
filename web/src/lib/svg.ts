@@ -18,12 +18,7 @@ export async function loadPlaneInner(
   format: 'square' | 'horizontal' | 'vertical' = 'square',
 ): Promise<string> {
   const text = await loadSvg(planeAssetUrl(schemeId, format))
-  const body = extractInnerSvg(text).body
-  // horizontal/vertical всегда из scheme-1 geometry → перекраска под целевую схему
-  if (format !== 'square' && schemeId !== 'scheme-1') {
-    return recolorSvgMarkup(body, schemeId)
-  }
-  return body
+  return extractInnerSvg(text).body
 }
 
 export function extractInnerSvg(svgText: string): {

@@ -1,0 +1,13 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="1200" height="630" fill="#FDD7B9"/>
+<defs>
+<clipPath id="plane_scheme2_horizontal_frame"><rect width="1200" height="630"/></clipPath>
+</defs>
+<g clip-path="url(#plane_scheme2_horizontal_frame)">
+<g transform="scale(1.2 0.63)">
+<path d="M1000.42 1044.9C1089.68 905.891 1024.4 763.465 1033.6 738.17L470.651 1079.92L1000.42 1044.9Z" fill="#FAC896"/>
+</g>
+<line x1="309.214" y1="-55.813" x2="1254.192" y2="223.650" stroke-width="2" stroke="#D27532"/>
+<line x1="461.422" y1="713.318" x2="1211.760" y2="473.151" stroke-width="2" stroke="#D27532"/>
+</g>
+</svg>

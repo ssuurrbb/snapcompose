@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { CANVAS_FORMATS, type CanvasFormat } from '../data/catalog'
-import { planeColor } from '../data/palettes'
 import { loadPlaneInner, recolorSvgMarkup } from '../lib/svg'
 import type { SceneItem } from '../types'
 
@@ -15,7 +14,6 @@ interface Props {
 
 export function Canvas({ format, schemeId, items, selectedUid, onSelect, onMove }: Props) {
   const { width, height } = CANVAS_FORMATS[format]
-  const bg = planeColor(schemeId)
   const [planeBody, setPlaneBody] = useState<string | null>(null)
   const drag = useRef<{ uid: string; ox: number; oy: number; startX: number; startY: number } | null>(
     null,
@@ -24,7 +22,6 @@ export function Canvas({ format, schemeId, items, selectedUid, onSelect, onMove 
 
   useEffect(() => {
     let cancelled = false
-    setPlaneBody(null)
     loadPlaneInner(schemeId, format)
       .then((body) => {
         if (!cancelled) setPlaneBody(body)
@@ -55,7 +52,10 @@ export function Canvas({ format, schemeId, items, selectedUid, onSelect, onMove 
         ref={svgRef}
         className="canvas"
         viewBox={`0 0 ${width} ${height}`}
-        width="100%"
+        width={width}
+        height={height}
+        preserveAspectRatio="xMidYMid meet"
+        style={{ aspectRatio: `${width} / ${height}` }}
         role="img"
         aria-label="Холст композиции"
         onPointerDown={(e) => {
@@ -64,7 +64,6 @@ export function Canvas({ format, schemeId, items, selectedUid, onSelect, onMove 
           }
         }}
       >
-        <rect data-bg="1" width={width} height={height} fill={bg} />
         {planeBody ? (
           <g data-bg="1" dangerouslySetInnerHTML={{ __html: planeBody }} />
         ) : null}

@@ -433,10 +433,11 @@ textarea {
 
 .canvas {
   display: block;
-  width: 100%;
+  width: auto;
   height: auto;
+  max-width: 100%;
   max-height: 68vh;
-  margin-top: 18px;
+  margin: 18px auto 0;
   border-radius: 6px;
   cursor: default;
   background: #cfd8e0;
