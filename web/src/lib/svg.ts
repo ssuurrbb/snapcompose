@@ -1,4 +1,4 @@
-import { buildRecolorMap } from '../data/palettes'
+import { buildRecolorMap, planeAssetUrl } from '../data/palettes'
 
 const svgCache = new Map<string, string>()
 
@@ -10,6 +10,20 @@ export async function loadSvg(url: string): Promise<string> {
   const text = await res.text()
   svgCache.set(url, text)
   return text
+}
+
+/** Плоскость фона со штрихами/кружками для формата + схемы. */
+export async function loadPlaneInner(
+  schemeId: string,
+  format: 'square' | 'horizontal' | 'vertical' = 'square',
+): Promise<string> {
+  const text = await loadSvg(planeAssetUrl(schemeId, format))
+  const body = extractInnerSvg(text).body
+  // horizontal/vertical всегда из scheme-1 geometry → перекраска под целевую схему
+  if (format !== 'square' && schemeId !== 'scheme-1') {
+    return recolorSvgMarkup(body, schemeId)
+  }
+  return body
 }
 
 export function extractInnerSvg(svgText: string): {
@@ -74,6 +88,8 @@ export function buildExportSvg(opts: {
   width: number
   height: number
   background: string
+  /** Inner markup плоскости (штрихи/овалы); если нет — только сплошная заливка. */
+  planeMarkup?: string
   items: SceneItemExport[]
 }): string {
   const layers = opts.items
@@ -85,9 +101,13 @@ export function buildExportSvg(opts: {
     })
     .join('\n')
 
+  const plane = opts.planeMarkup
+    ? `<g data-layer="plane">${opts.planeMarkup}</g>`
+    : `<rect width="${opts.width}" height="${opts.height}" fill="${opts.background}"/>`
+
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${opts.width}" height="${opts.height}" viewBox="0 0 ${opts.width} ${opts.height}" fill="none">
-  <rect width="${opts.width}" height="${opts.height}" fill="${opts.background}"/>
+  ${plane}
 ${layers}
 </svg>`
 }

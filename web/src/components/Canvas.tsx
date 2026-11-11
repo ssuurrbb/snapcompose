@@ -1,7 +1,7 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { CANVAS_FORMATS, type CanvasFormat } from '../data/catalog'
 import { planeColor } from '../data/palettes'
-import { recolorSvgMarkup } from '../lib/svg'
+import { loadPlaneInner, recolorSvgMarkup } from '../lib/svg'
 import type { SceneItem } from '../types'
 
 interface Props {
@@ -16,10 +16,26 @@ interface Props {
 export function Canvas({ format, schemeId, items, selectedUid, onSelect, onMove }: Props) {
   const { width, height } = CANVAS_FORMATS[format]
   const bg = planeColor(schemeId)
+  const [planeBody, setPlaneBody] = useState<string | null>(null)
   const drag = useRef<{ uid: string; ox: number; oy: number; startX: number; startY: number } | null>(
     null,
   )
   const svgRef = useRef<SVGSVGElement>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    setPlaneBody(null)
+    loadPlaneInner(schemeId, format)
+      .then((body) => {
+        if (!cancelled) setPlaneBody(body)
+      })
+      .catch(() => {
+        if (!cancelled) setPlaneBody(null)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [schemeId, format])
 
   const clientToSvg = (clientX: number, clientY: number) => {
     const svg = svgRef.current
@@ -43,12 +59,15 @@ export function Canvas({ format, schemeId, items, selectedUid, onSelect, onMove 
         role="img"
         aria-label="Холст композиции"
         onPointerDown={(e) => {
-          if (e.target === e.currentTarget || (e.target as Element).getAttribute('data-bg')) {
+          if (e.target === e.currentTarget || (e.target as Element).closest('[data-bg]')) {
             onSelect(null)
           }
         }}
       >
         <rect data-bg="1" width={width} height={height} fill={bg} />
+        {planeBody ? (
+          <g data-bg="1" dangerouslySetInnerHTML={{ __html: planeBody }} />
+        ) : null}
         {items.map((item) => {
           const body = recolorSvgMarkup(item.body, schemeId)
           const selected = item.uid === selectedUid

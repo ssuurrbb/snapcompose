@@ -13,7 +13,7 @@ import {
   saveLlmSettings,
   type LlmSettings,
 } from './lib/metaphor'
-import { buildExportSvg, downloadText, recolorSvgMarkup } from './lib/svg'
+import { buildExportSvg, downloadText, loadPlaneInner, recolorSvgMarkup } from './lib/svg'
 
 export default function App() {
   const c = useComposition()
@@ -33,12 +33,19 @@ export default function App() {
     })
   }
 
-  const exportSvg = () => {
+  const exportSvg = async () => {
     const { width, height } = CANVAS_FORMATS[c.state.format]
+    let planeMarkup: string | undefined
+    try {
+      planeMarkup = await loadPlaneInner(c.state.schemeId, c.state.format)
+    } catch {
+      planeMarkup = undefined
+    }
     const svg = buildExportSvg({
       width,
       height,
       background: planeColor(c.state.schemeId),
+      planeMarkup,
       items: c.state.items.map((it) => ({
         id: `${it.objectId}-${it.role}`,
         x: it.x,

@@ -69,6 +69,21 @@ export function planeColor(schemeId: string): string {
   return scheme.colors.find((c) => c.role === 'plane')?.hex ?? '#D7CDF5'
 }
 
+/**
+ * Плоскость фона со штрихами/овалами.
+ * Для каждого формата — своя раскладка декора (не растягиваем квадрат).
+ * Если файла схемы нет (horizontal/vertical кроме scheme-1) — берём scheme-1 и перекрашиваем.
+ */
+export function planeAssetUrl(
+  schemeId: string,
+  format: 'square' | 'horizontal' | 'vertical' = 'square',
+): string {
+  const id = COLOR_SCHEMES.some((s) => s.id === schemeId) ? schemeId : BASE_SCHEME_ID
+  if (format === 'square') return `/planes/square/plane-${id}.svg`
+  // Пока для wide/tall есть эталонная геометрия scheme-1; другие схемы — через recolor.
+  return `/planes/${format}/plane-scheme-1.svg`
+}
+
 /** Карта: цвет из базовой схемы → цвет целевой (по индексу). */
 export function buildRecolorMap(targetSchemeId: string): Map<string, string> {
   const base = getScheme(BASE_SCHEME_ID)
