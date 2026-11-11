@@ -66,12 +66,27 @@ export default function App() {
         <div className="brand">
           <p className="brand-mark">Snapcompose</p>
           <h1>Конструктор иллюстраций из готовой SVG-библиотеки</h1>
-          <p className="lede">
-            Метафора или имена → сборка сцены → редактируемый вектор. Новые объекты не генерируются.
-          </p>
+          <p className="lede">Метафора или имена → сборка сцены → изображение SVG.</p>
+          <ul className="terms">
+            <li>
+              <strong>Метафора</strong> — идея своими словами, по ней подбираются изображения
+            </li>
+            <li>
+              <strong>SVG</strong> — изображение, которое можно скачать и потом править
+            </li>
+            <li>
+              <strong>LLM</strong> — нейросеть: читает идею и помогает подобрать изображения
+            </li>
+          </ul>
         </div>
         <div className="top-actions">
-          <button type="button" className="btn primary" onClick={exportSvg} disabled={!c.state.items.length}>
+          <button
+            type="button"
+            className="btn primary"
+            onClick={exportSvg}
+            disabled={!c.state.items.length}
+            title="SVG — изображение, которое можно потом править"
+          >
             Скачать SVG
           </button>
           <button type="button" className="btn" onClick={c.clear} disabled={!c.state.items.length}>
@@ -84,6 +99,7 @@ export default function App() {
         <aside className="panel">
           <section>
             <h2>Сценарий 1 — метафора</h2>
+            <p className="hint">Идея своими словами: программа сама подберёт изображения.</p>
             <textarea
               value={metaphor}
               onChange={(e) => setMetaphor(e.target.value)}
@@ -101,15 +117,19 @@ export default function App() {
           </section>
 
           <details className="llm-details">
-            <summary>LLM для метафор</summary>
+            <summary>Нейросеть (LLM)</summary>
             <div className="llm-details-body">
+              <p className="hint">
+                Читает вашу идею и подбирает изображения. Если выключить или не указывать ключ,
+                программа подберёт их сама.
+              </p>
               <label className="check">
                 <input
                   type="checkbox"
                   checked={llm.enabled}
                   onChange={(e) => patchLlm({ enabled: e.target.checked })}
                 />
-                Использовать LLM (иначе только локальный подбор)
+                Использовать нейросеть
               </label>
               <label>
                 API key
@@ -117,7 +137,7 @@ export default function App() {
                   type="password"
                   value={llm.apiKey}
                   onChange={(e) => patchLlm({ apiKey: e.target.value })}
-                  placeholder="sk-… или ключ OpenRouter/Groq"
+                  placeholder="sk-…"
                   autoComplete="off"
                 />
               </label>
@@ -137,10 +157,6 @@ export default function App() {
                   placeholder="gpt-4o-mini"
                 />
               </label>
-              <p className="meta">
-                OpenAI-compatible через `/api/llm/plan`. Ключ в sessionStorage. Без ключа —
-                локальный fallback.
-              </p>
             </div>
           </details>
 
@@ -297,7 +313,6 @@ export default function App() {
           <section>
             <h2>Ограничения</h2>
             <ul className="rules">
-              <li>Новые объекты не генерируются</li>
               <li>Size L/S — детализация; масштаб на холсте можно менять</li>
               <li>Цвета только из выбранной схемы</li>
               <li>Экспорт — редактируемый SVG</li>
