@@ -1,4 +1,5 @@
 import { loadLlmSettings } from './llmSettings'
+import { publicUrl } from './publicUrl'
 import { sanitizePlan } from './metaphorGuard'
 import { planFromMetaphorLocal } from './metaphorLocal'
 import type { LlmSettings, MetaphorPlan } from './metaphorTypes'
@@ -8,7 +9,7 @@ export { planFromMetaphorLocal } from './metaphorLocal'
 export { loadLlmSettings, saveLlmSettings } from './llmSettings'
 
 async function planFromLlm(text: string, settings: LlmSettings): Promise<MetaphorPlan> {
-  const res = await fetch('/api/llm/plan', {
+  const res = await fetch(publicUrl('/api/llm/plan'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({

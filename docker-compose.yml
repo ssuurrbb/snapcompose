@@ -1,0 +1,16 @@
+services:
+  web:
+    build:
+      context: ./web
+      args:
+        VITE_BASE: /snapcompose/
+    image: snapcompose:latest
+    container_name: snapcompose
+    restart: unless-stopped
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
+    name: stroyotbor_default

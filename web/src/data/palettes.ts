@@ -1,3 +1,5 @@
+import { publicUrl } from '../lib/publicUrl'
+
 export type ColorRole = 'plane' | 'object'
 
 export interface PaletteColor {
@@ -77,7 +79,7 @@ export function planeAssetUrl(
   format: 'square' | 'horizontal' | 'vertical' = 'square',
 ): string {
   const id = COLOR_SCHEMES.some((s) => s.id === schemeId) ? schemeId : BASE_SCHEME_ID
-  return `/planes/${format}/plane-${id}.svg`
+  return publicUrl(`/planes/${format}/plane-${id}.svg`)
 }
 
 /** Карта: цвет из базовой схемы → цвет целевой (по индексу). */

@@ -1,3 +1,5 @@
+import { publicUrl } from '../lib/publicUrl'
+
 export type ObjectId =
   | 'book'
   | 'phone'
@@ -44,7 +46,7 @@ export const CANVAS_FORMATS: Record<
 }
 
 export function assetUrl(id: ObjectId, size: AssetSize, role: AssetRole): string {
-  return `/library/${size}/${role}/${id}.svg`
+  return publicUrl(`/library/${size}/${role}/${id}.svg`)
 }
 
 export function findObjectsByQuery(query: string): CatalogObject[] {
